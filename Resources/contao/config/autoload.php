@@ -17,8 +17,8 @@
  */
 TemplateLoader::addFiles(array
 (
-	'log_report_partial' => 'system/modules/log_report/templates',
-	'log_report'         => 'system/modules/log_report/templates',
+	'log_report_partial' => 'vendor/markocupic/log-report-bundle/Resources/contao/templates',
+	'log_report'         => 'vendor/markocupic/log-report-bundle/Resources/contao/templates', 
 ));
 
 
