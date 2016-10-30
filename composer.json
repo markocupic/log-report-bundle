@@ -1,0 +1,29 @@
+{
+  "name": "markocupic/log-report-bundle",
+  "type": "contao-bundle",
+  "description": "Contao 4 log-report bundle",
+  "license": "LGPL-3.0+",
+  "authors": [
+    {
+      "name": "Marko Cupic",
+      "homepage": "https://github.com/markocupic"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "contao/core-bundle": ">4.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Markocupic\\LogReportBundle\\": ""
+    },
+    "classmap": [
+      "Resources/contao"
+    ],
+    "exclude-from-classmap": [
+      "Resources/contao/config",
+      "Resources/contao/dca",
+      "Resources/contao/languages"
+    ]
+  }
+}
