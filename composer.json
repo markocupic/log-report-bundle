@@ -24,5 +24,8 @@
       "src/Resources/contao/dca",
       "src/Resources/contao/languages"
     ]
+  },
+  "extra": {
+    "contao-manager-plugin": "Markocupic\\LogReportBundle\\ContaoManager\\Plugin"
   }
 }
