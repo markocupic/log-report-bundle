@@ -87,7 +87,6 @@ class log_report_settings extends \Backend
 	 */
 	public function getPartialTemplates(DataContainer $dc)
 	{
-		$intPid = $dc->activeRecord->pid;
-		return $this->getTemplateGroup('log_report_partial', $intPid);
+		return $this->getTemplateGroup('log_report_partial');
 	}
 }
