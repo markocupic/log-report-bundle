@@ -29,10 +29,10 @@ $GLOBALS['TL_DCA']['tl_log_report'] = array(
                      'sql' => "varchar(10) NOT NULL default ''"
               ),
               'recipients' => array(
-                     'sql' => "text NOT NULL"
+                     'sql' => "text NOT NULL default=''"
               ),
               'report' => array(
-                     'sql' => "text NOT NULL"
+                     'sql' => "text NOT NULL default=''"
               )
        )
 );
