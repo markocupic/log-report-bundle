@@ -21,7 +21,7 @@
       "src/Resources/contao"
     ],
     "exclude-from-classmap": [
-      "src/Resources",
+      "src/Resources"
     ]
   },
   "extra": {

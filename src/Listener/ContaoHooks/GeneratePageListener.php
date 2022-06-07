@@ -52,7 +52,7 @@ class GeneratePageListener
         $this->stringUtil = $this->framework->getAdapter(StringUtil::class);
         $this->system = $this->framework->getAdapter(System::class);
 
-        // Assigning the frontend template
+        // Get the (custom) frontend template
         $this->strPartialTemplate = \strlen(trim($this->config->get('log_report_template'))) ? $this->config->get('log_report_template') : $this->strPartialTemplate;
 
         $this->dateKey = date('Y_m_d');
@@ -75,6 +75,7 @@ class GeneratePageListener
         $arrObserved = $this->stringUtil->deserialize($GLOBALS['TL_CONFIG']['log_report_observed_tables'], true);
         $arrAdditional = explode(',', $GLOBALS['TL_CONFIG']['log_report_additional_observed_tables'] ?? '');
 
+        // Clean array, remove duplicate or empty values
         $arrObservedTables = array_merge($arrObserved, $arrAdditional);
         $arrObservedTables = array_map('trim', $arrObservedTables);
         $arrObservedTables = array_filter($arrObservedTables);
@@ -85,7 +86,6 @@ class GeneratePageListener
             return;
         }
 
-        // Remove empty value with a callback function
         $this->arrObservedTables = $arrObservedTables;
 
         $template = new FrontendTemplate($this->strTemplate);
@@ -93,18 +93,18 @@ class GeneratePageListener
 
         $template->loadLanguageFile('default');
 
-        // If a report was already sent today, abort here
         $objReport = $this->database
             ->getInstance()
             ->prepare('SELECT * FROM tl_log_report WHERE date = ?')
             ->execute($this->dateKey)
         ;
 
+        // If a report was already sent today, stop here
         if (!$objReport->numRows || self::LOG_REPORT_TEST_MODE) {
             // Search for new Versions in the db
             $this->getNewVersions();
 
-            // Add the partialHtml to the main-template
+            // Inject the partial HTML to the main template
             $template->report = $this->arrReport;
             $this->arrReport = [];
 
@@ -119,7 +119,7 @@ class GeneratePageListener
                 $this->sendEmail($htmlMailContent);
             }
 
-            // db insert
+            // Insert new record
             $set = [
                 'date' => $this->dateKey,
                 'recipients' => $GLOBALS['TL_CONFIG']['log_report_recipients'],
