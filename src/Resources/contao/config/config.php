@@ -1,25 +1,22 @@
 <?php
 
-/**
- * Contao Open Source CMS
+declare(strict_types=1);
+
+/*
+ * This file is part of Log Report Bundle.
  *
- * Copyright (c) 2005-2014 Leo Feyer
- *
- * @package   log_report
- * @author    Marko Cupic
- * @license   shareware
- * @copyright Marko Cupic 2014
+ * (c) Marko Cupic 2022 <m.cupic@gmx.ch>
+ * @license GPL-3.0-or-later
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ * @link https://github.com/markocupic/log-report-bundle
  */
 
+use Markocupic\LogReportBundle\Util\ContaoMaintenance;
 
-$GLOBALS['TL_PURGE']['tables']['log_report']['callback'] = array(
-       'MCupic\LogReport',
-       'purgeLogReportTable'
-);
-$GLOBALS['TL_PURGE']['tables']['log_report']['affected'] = array('tl_log_report');
+$GLOBALS['TL_PURGE']['tables']['log_report']['callback'] = [
+    ContaoMaintenance::class,
+    'purgeLogReportTable',
+];
 
-$GLOBALS['TL_HOOKS']['generatePage'][] = array(
-       'MCupic\LogReport',
-       'runLogReport'
-);
-
+$GLOBALS['TL_PURGE']['tables']['log_report']['affected'] = ['tl_log_report'];

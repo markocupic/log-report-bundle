@@ -1,92 +1,56 @@
 <?php
 
-/**
- * Contao Open Source CMS
+declare(strict_types=1);
+
+/*
+ * This file is part of Log Report Bundle.
  *
- * Copyright (c) 2005-2014 Leo Feyer
- *
- * @package   log_report
- * @author    Marko Cupic
- * @license   shareware
- * @copyright Marko Cupic 2014
+ * (c) Marko Cupic 2022 <m.cupic@gmx.ch>
+ * @license GPL-3.0-or-later
+ * For the full copyright and license information,
+ * please view the LICENSE file that was distributed with this source code.
+ * @link https://github.com/markocupic/log-report-bundle
  */
 
-/**
- * Add to palette
- */
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
-$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{log_report_legend:hide}, log_report_activate, log_report_observed_tables, log_report_additional_observed_tables, log_report_send_email_when_db_changed, log_report_recipients, log_report_template';
+PaletteManipulator::create()
+    ->addLegend('log_report_legend', 'default', PaletteManipulator::POSITION_APPEND)
+    ->addField(['log_report_activate', 'log_report_observed_tables', 'log_report_additional_observed_tables', 'log_report_send_email_when_db_changed', 'log_report_recipients', 'log_report_template'], 'log_report_legend', PaletteManipulator::POSITION_APPEND)
+    ->applyToPalette('default', 'tl_settings');
 
-
-/**
+/*
  * Add fields
  */
-$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_activate'] = array
-(
-		'label'	=>	&$GLOBALS['TL_LANG']['tl_settings']['log_report_activate'],
-		'inputType'	=>	'checkbox',
-		'default'	=>	'true',
-		'eval'		=>	array('tl_class'=>'long clr')
-);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_activate'] = [
+    'inputType' => 'checkbox',
+    'default'   => 'true',
+    'eval'      => ['tl_class' => 'long clr'],
+];
 
-$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_send_email_when_db_changed'] = array
-(
-		'label'	=>	&$GLOBALS['TL_LANG']['tl_settings']['log_report_send_email_when_db_changed'],
-		'inputType'	=>	'checkbox',
-		'default'	=>	'true',
-		'eval'		=>	array('tl_class'=>'long clr')
-);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_send_email_when_db_changed'] = [
+    'inputType' => 'checkbox',
+    'default'   => 'true',
+    'eval'      => ['tl_class' => 'long clr'],
+];
 
-$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_template'] = array
-(
-		'label'              => &$GLOBALS['TL_LANG']['tl_settings']['log_report_template'],
-		'inputType'          => 'select',
-		'options_callback'   => array('log_report_settings', 'getPartialTemplates'),
-		'eval'               => array('tl_class'=>'long clr')
-);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_template'] = [
+    'inputType' => 'select',
+    'eval'      => ['tl_class' => 'long clr'],
+];
 
-$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_recipients'] = array
-(
-		'label'       =>	&$GLOBALS['TL_LANG']['tl_settings']['log_report_recipients'],
-		'inputType'   =>	'text',
-		'eval'        =>	array('tl_class'=>'long clr')
-);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_recipients'] = [
+    'inputType' => 'text',
+    'eval'      => ['tl_class' => 'long clr'],
+];
 
-$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_observed_tables'] = array
-(
-		'label'       =>	&$GLOBALS['TL_LANG']['tl_settings']['log_report_observed_tables'],
-		'inputType'	=>	'checkbox',
-		'options'	=>	array('tl_content','tl_member','tl_news','tl_user'),
-		'eval'		=>	array('multiple'=>true, 'tl_class'=>'long clr')
-);
-$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_additional_observed_tables'] = array
-(
-		'label'       =>	&$GLOBALS['TL_LANG']['tl_settings']['log_report_additional_observed_tables'],
-		'inputType'   =>	'text',
-		'eval'		=>	array('tl_class'=>'long clr')
-);
+$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_observed_tables'] = [
+    'inputType' => 'checkbox',
+    'options'   => ['tl_content', 'tl_member', 'tl_news', 'tl_user'],
+    'eval'      => ['multiple' => true, 'tl_class' => 'long clr'],
+];
 
-
-class log_report_settings extends \Backend
-{
-
-	/**
-	 * Import the back end user object
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->import('BackendUser', 'User');
-	}
-
-
-	/**
-	 * Return all navigation templates as array
-	 * @param object
-	 * @return array
-	 */
-	public function getPartialTemplates(DataContainer $dc)
-	{
-		return $this->getTemplateGroup('log_report_partial');
-	}
-}
+$GLOBALS['TL_DCA']['tl_settings']['fields']['log_report_additional_observed_tables'] = [
+    'inputType' => 'text',
+    'eval'      => ['tl_class' => 'long clr'],
+];
