@@ -12,9 +12,11 @@ declare(strict_types=1);
  * @link https://github.com/markocupic/log-report-bundle
  */
 
+use Contao\DC_Table;
+
 $GLOBALS['TL_DCA']['tl_log_report'] = [
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => DC_Table::class,
         'sql'           => [
             'keys' => [
                 'id' => 'primary',
@@ -29,10 +31,10 @@ $GLOBALS['TL_DCA']['tl_log_report'] = [
             'sql' => "varchar(10) NOT NULL default ''",
         ],
         'recipients' => [
-            'sql' => "text NOT NULL default ''",
+            'sql' => "mediumtext NULL",
         ],
         'report'     => [
-            'sql' => "text NOT NULL default ''",
+            'sql' => "mediumtext NULL",
         ],
     ],
 ];

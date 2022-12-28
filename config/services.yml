@@ -7,5 +7,5 @@ services:
       $projectDir: '%kernel.project_dir%'
 
   Markocupic\LogReportBundle\:
-    resource: ../../
-    exclude: ../../{DependencyInjection,Resources}
+    resource: ../src/
+    exclude: ../src/{DependencyInjection}

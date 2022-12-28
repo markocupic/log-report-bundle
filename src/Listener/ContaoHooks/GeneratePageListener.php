@@ -136,7 +136,7 @@ class GeneratePageListener
 
             if ($objInsertStmt->affectedRows) {
                 $insertId = $objInsertStmt->insertId;
-                $this->system->log('LogReport has been executed and an email was sent to the admin.', __CLASS__.' '.__FUNCTION__.'()', TL_GENERAL);
+                $this->system->log('Log Report has been executed and an email was sent to the admin.', __CLASS__.' '.__FUNCTION__.'()', TL_GENERAL);
                 $this->system->log(sprintf('A new version of tl_log_report ID %s has been created', $insertId), __CLASS__.' '.__FUNCTION__.'()', TL_GENERAL);
             }
         }

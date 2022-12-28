@@ -23,7 +23,6 @@ $row=0;
   </tr>
   <tr class="odd">
     <td class="col_1">Log-Type:</td>
-    datarecord
     <td class="col_2 <?= $this->type ?>"><?= $GLOBALS['TL_LANG']['default'][$this->type] ?></td>
   </tr>
   <tr class="">
@@ -34,13 +33,13 @@ $row=0;
     <td class="col_1">Log-Mitteilung:</td>
     <td class="col_2"><?= $this->logMessage ?></td>
   </tr>
-  <?php if(is_array($arr_displayedFields[$this->table])): ?>
+  <?php if (is_array($arr_displayedFields[$this->table])): ?>
   <?php foreach ($arr_displayedFields[$this->table] as $fieldname): ?>
   <?php $row++; $content = $this->fields[$fieldname]; ?>
   <?php if ($content!=''): ?>
   <tr class="<?= $row%2==0 ? 'odd':'' ?>">
     <td class="col_1"><?= $fieldname ?>:</td>
-    <td class="col_2"><?= (is_array(unserialize($content)) ? print_r(unserialize($content),true) : $content) ?></td>
+    <td class="col_2"><?= (is_array(\Contao\StringUtil::deserialize($content)) ? print_r(\Contao\StringUtil::deserialize($content,true),true) : $content) ?></td>
   </tr>
   <?php endif; ?>
   <?php endforeach; ?>

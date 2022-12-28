@@ -1,7 +1,7 @@
 {
   "name": "markocupic/log-report-bundle",
   "type": "contao-bundle",
-  "description": "Contao 4 log-report bundle",
+  "description": "Contao log-report bundle",
   "license": "LGPL-3.0+",
   "authors": [
     {
@@ -11,18 +11,12 @@
   ],
   "require": {
     "php": "^8.0",
-    "contao/core-bundle": "^4.13"
+    "contao/core-bundle": "^4.13 || ^5.0"
   },
   "autoload": {
     "psr-4": {
       "Markocupic\\LogReportBundle\\": "src/"
-    },
-    "classmap": [
-      "src/Resources/contao"
-    ],
-    "exclude-from-classmap": [
-      "src/Resources"
-    ]
+    }
   },
   "extra": {
     "contao-manager-plugin": "Markocupic\\LogReportBundle\\ContaoManager\\Plugin"
