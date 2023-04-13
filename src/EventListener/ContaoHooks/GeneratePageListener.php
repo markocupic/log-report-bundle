@@ -8,6 +8,7 @@ use Contao\Config;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\Database;
 use Contao\Email;
 use Contao\Environment;
@@ -15,6 +16,7 @@ use Contao\File;
 use Contao\FrontendTemplate;
 use Contao\StringUtil;
 use Contao\System;
+use Psr\Log\LoggerInterface;
 
 #[AsHook(GeneratePageListener::HOOK, priority: 100)]
 class GeneratePageListener
@@ -36,10 +38,10 @@ class GeneratePageListener
     private Adapter $database;
     private Adapter $environment;
     private Adapter $stringUtil;
-    private Adapter $system;
 
     public function __construct(
         private readonly ContaoFramework $framework,
+        private readonly ?LoggerInterface $contaoGeneralLogger,
         private readonly string $projectDir,
     )
     {
@@ -49,7 +51,6 @@ class GeneratePageListener
         $this->database = $this->framework->getAdapter(Database::class);
         $this->environment = $this->framework->getAdapter(Environment::class);
         $this->stringUtil = $this->framework->getAdapter(StringUtil::class);
-        $this->system = $this->framework->getAdapter(System::class);
 
         // Get the (custom) frontend template
         $this->strPartialTemplate = \strlen(trim($this->config->get('log_report_template'))) ? $this->config->get('log_report_template') : $this->strPartialTemplate;
@@ -110,7 +111,7 @@ class GeneratePageListener
             $htmlMailContent = $template->parse();
 
             // Send email
-            if ($this->countReports < 1 && $GLOBALS['TL_CONFIG']['log_report_send_email_when_db_changed']) {
+            if ($this->countReports < 1 && $GLOBALS['TL_CONFIG']['log_report_send_email_when_db_changed'] ?? false) {
                 // If there are no changes
                 // and $GLOBALS['TL_CONFIG']['log_report_send_email_when_db_changed'] is activated
                 // no email will be sent to the recipients.
@@ -134,9 +135,12 @@ class GeneratePageListener
             ;
 
             if ($objInsertStmt->affectedRows) {
+                $text = 'Log Report has been executed and an email was sent to the admin.';
+                $this->contaoGeneralLogger?->info($text, ['contao' => new ContaoContext(__METHOD__, 'LOG_REPORT')]);
+
                 $insertId = $objInsertStmt->insertId;
-                $this->system->log('Log Report has been executed and an email was sent to the admin.', __CLASS__.' '.__FUNCTION__.'()', TL_GENERAL);
-                $this->system->log(sprintf('A new version of tl_log_report ID %s has been created', $insertId), __CLASS__.' '.__FUNCTION__.'()', TL_GENERAL);
+                $text = sprintf('A new version of tl_log_report ID %s has been created.', $insertId);
+                $this->contaoGeneralLogger?->info($text,  ['contao' => new ContaoContext(__METHOD__, ContaoContext::GENERAL)]);
             }
         }
     }
@@ -208,7 +212,7 @@ class GeneratePageListener
 
                             $objDb = $this->database
                                 ->getInstance()
-                                ->prepare(sprintf('SELECT * FROM %s WHERE id=?', $table))
+                                ->prepare(sprintf('SELECT * FROM %s WHERE id = ?', $table))
                                 ->execute($id)
                             ;
 

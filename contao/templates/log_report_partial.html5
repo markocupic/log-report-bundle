@@ -1,15 +1,16 @@
 <?php
 // the partial template for tl_content
 // define an array for each table with all fieldnames you wish to have displayed in the report.
-$arr_displayedFields["tl_content"] = array("backendUrl", "id", "headline", "text", "html");
-$arr_displayedFields["tl_member"] = array("backendUrl", "id", "firstname", "lastname");
-$arr_displayedFields["tl_news"] = array("backendUrl", "id", "author", "headline", "subheadline", "teaser", "text");
-$arr_displayedFields["tl_user"] = array("backendUrl", "id", "username");
-$arr_displayedFields["tl_calendar_events"] = array("backendUrl", "id", "title");
+$arr_displayed_fields = [];
+$arr_displayed_fields["tl_content"] = ["backendUrl", "id", "headline", "text", "html"];
+$arr_displayed_fields["tl_member"] = ["backendUrl", "id", "firstname", "lastname"];
+$arr_displayed_fields["tl_news"] = ["backendUrl", "id", "author", "headline", "subheadline", "teaser", "text"];
+$arr_displayed_fields["tl_user"] = ["backendUrl", "id", "username"];
+$arr_displayed_fields["tl_calendar_events"] = ["backendUrl", "id", "title"];
 
 // add here some additional tables, which you have declared in the backend-settings
-// $arr_displayedFields["tl_an_other_table"] = array("backendUrl", "id", "username");
-// $arr_displayedFields["tl_an_other_table"] = array("backendUrl", "id", "username");
+// $arr_displayed_fields["tl_an_other_table"] = array("backendUrl", "id", "username");
+// $arr_displayed_fields["tl_an_other_table"] = array("backendUrl", "id", "username");
 
 // end settings
 
@@ -33,16 +34,17 @@ $row=0;
     <td class="col_1">Log-Mitteilung:</td>
     <td class="col_2"><?= $this->logMessage ?></td>
   </tr>
-  <?php if (is_array($arr_displayedFields[$this->table])): ?>
-  <?php foreach ($arr_displayedFields[$this->table] as $fieldname): ?>
-  <?php $row++; $content = $this->fields[$fieldname]; ?>
-  <?php if ($content!=''): ?>
-  <tr class="<?= $row%2==0 ? 'odd':'' ?>">
-    <td class="col_1"><?= $fieldname ?>:</td>
-    <td class="col_2"><?= (is_array(\Contao\StringUtil::deserialize($content)) ? print_r(\Contao\StringUtil::deserialize($content,true),true) : $content) ?></td>
-  </tr>
-  <?php endif; ?>
-  <?php endforeach; ?>
+  <?php if (is_array($arr_displayed_fields[$this->table])): ?>
+    <?php foreach ($arr_displayed_fields[$this->table] as $fieldName): ?>
+      <?php $row++; ?>
+      <?php $content = $this->fields[$fieldName] ?? ''; ?>
+      <?php if (!empty($content)): ?>
+        <tr class="<?= $row%2==0 ? 'odd':'' ?>">
+          <td class="col_1"><?= $fieldName ?>:</td>
+          <td class="col_2"><?= (is_array(\Contao\StringUtil::deserialize($content)) ? print_r(\Contao\StringUtil::deserialize($content,true),true) : $content) ?></td>
+        </tr>
+      <?php endif; ?>
+    <?php endforeach; ?>
   <?php endif; ?>
 </table>
 <br>
