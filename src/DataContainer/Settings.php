@@ -17,27 +17,22 @@ namespace Markocupic\LogReportBundle\DataContainer;
 use Contao\Backend;
 use Contao\CoreBundle\Framework\Adapter;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\DataContainer;
 
 class Settings
 {
-    private ContaoFramework $framework;
 
-    // Adapters
     private Adapter $backend;
 
-    public function __construct(ContaoFramework $framework)
+    public function __construct(
+        private readonly ContaoFramework $framework,
+    )
     {
-        $this->framework = $framework;
-
-        // Adapters
         $this->backend = $this->framework->getAdapter(Backend::class);
     }
 
-    /**
-     * @Callback(table="tl_settings", target="fields.log_report_template.options")
-     */
+    #[AsCallback(table: 'tl_settings', target: 'fields.log_report_template.options', priority: 100)]
     public function getPartialTemplates(DataContainer $dc)
     {
         return $this->backend->getTemplateGroup('log_report_partial');

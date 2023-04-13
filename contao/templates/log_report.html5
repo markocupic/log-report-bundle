@@ -1,96 +1,85 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+        "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<title>LogReport</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<style type="text/css">
+  <head>
+    <title>LogReport</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <style type="text/css">
 
-body
-{
-	font-family:Tahoma;
-	font-size:75%;
-	background-color:#dddddd;
-}
+        body {
+            font-family: Tahoma;
+            font-size: 75%;
+            background-color: #dddddd;
+        }
 
-.wrapper
-{
-	background-color:#eeeeee;
-	width:90%;
-	margin-left:auto;
-	margin-right:auto;
-	padding:20px 0px;
-}
+        .wrapper {
+            background-color: #eeeeee;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px 0px;
+        }
 
-.inner_wrapper
-{
-	width:96%;
-	margin-left:auto;
-	margin-right:auto;
-	margin-top:20px;
-	margin-bottom:20px;
-}
+        .inner_wrapper {
+            width: 96%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
 
-table
-{
-	border-collapse:collapse;
-}
+        table {
+            border-collapse: collapse;
+        }
 
-td
-{
-	vertical-align:top;
-	background-color:#f9f9f9;
-	border: 1px solid #dddddd;
-	padding:5px;
-}
+        td {
+            vertical-align: top;
+            background-color: #f9f9f9;
+            border: 1px solid #dddddd;
+            padding: 5px;
+        }
 
-tr.odd td
-{
-	background-color:#f0f0f0;
-}
+        tr.odd td {
+            background-color: #f0f0f0;
+        }
 
-.col_1
-{
-	width:25%;
-	font-weight:bold;
-}
+        .col_1 {
+            width: 25%;
+            font-weight: bold;
+        }
 
-.col_2
-{
-	width:75%;
-}
+        .col_2 {
+            width: 75%;
+        }
 
-.NEW_ENTRY
-{
-	color:#d58512;
-}
+        .NEW_ENTRY {
+            color: #d58512;
+        }
 
-.DELETE
-{
-	color:red;
-}
+        .DELETE {
+            color: red;
+        }
 
-.EDIT
-{
-	color:green;
-}
-</style>
-</head>
-<body>
-<div class="wrapper">
-<div class="inner_wrapper">
-<?php foreach ($this->arrObservedTables as $table): ?>
-<h1><?php echo $GLOBALS['TL_LANG']['default']['log_report_modifications'] . " " . $table; ?></h1>
-<?php if (isset($this->report[$table . "_html"]) && !empty($this->report[$table . "_html"])): ?>
-<?php foreach ($this->report[$table . "_html"] as $report): ?>
-<?php echo $report; ?>
-<?php endforeach; ?>
-<?php else: ?>
-<p><?php echo $GLOBALS['TL_LANG']['default']['log_report_no_modifications_found']; ?></p>
-<?php endif; ?>
-<?php endforeach; ?>
-</div>
-</div>
-</body>
+        .EDIT {
+            color: green;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="inner_wrapper">
+        <?php foreach ($this->arrObservedTables as $table): ?>
+          <h1><?= $GLOBALS['TL_LANG']['default']['log_report_modifications'] . " " . $table ?></h1>
+          <?php if (isset($this->report[$table . "_html"]) && !empty($this->report[$table . "_html"])): ?>
+            <?php foreach ($this->report[$table . "_html"] as $report): ?>
+              <?= $report ?>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <p><?php echo $GLOBALS['TL_LANG']['default']['log_report_no_modifications_found']; ?></p>
+          <?php endif; ?>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </body>
 </html>
 
